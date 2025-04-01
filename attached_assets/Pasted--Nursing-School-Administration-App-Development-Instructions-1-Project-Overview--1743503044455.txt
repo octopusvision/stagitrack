@@ -1,0 +1,195 @@
+### **Nursing School Administration App Development Instructions**
+
+---
+
+## **1. Project Overview**
+
+This document outlines the development of a Nursing School Administration App, detailing its key features, database schema, user workflows, and UI components.
+
+---
+
+## **2. Key Features**
+
+### **2.1 Student Management**
+
+- **Student Registration**:
+  - Add new students with basic details (name, ID, contact info, filiere, class, status).
+  - Upload and store documents (e.g., ID card, certificates).
+
+- **Student Profiles**:
+  - View and update student information.
+  - Track student status (Actif, Suspendu, Diplômé, Exclu).
+
+### **2.2 Filiere and Class Management**
+
+- **Filiere Management**:
+  - Add, edit, or delete filieres.
+  - Define the number of years and abbreviation for each filiere.
+
+- **Class Management**:
+  - Create classes (e.g., IP1, IP2, IP3) for each filiere.
+  - Assign students to classes.
+
+### **2.3 Attendance Tracking**
+
+- **Class Attendance**:
+  - Mark attendance for students (Present, Absent, Late).
+  - Automate penalties for unexcused absences.
+
+- **Internship Attendance**:
+  - Track student attendance at internship locations.
+  - Validate internships based on working days (e.g., 20 days).
+
+### **2.4 Internship Management**
+
+- **Internship Assignments**:
+  - Assign students to internship services (e.g., CHP EDDERAK, Clinique MOULOUYA).
+  - Define internship periods (Période de Stage: Period 1, Period 2, etc.).
+
+- **Internship Tracking**:
+  - Track start and end dates for internships.
+  - Validate internships based on completion of required working days.
+
+### **2.5 Timetable Management**
+
+- **Class Schedules**:
+  - Generate and manage class timetables (Emploi du Temps).
+  - Assign seances to specific dates, times, and rooms.
+
+- **Teacher Schedules**:
+  - Assign teachers to seances and sequences.
+
+### **2.6 User Roles and Access Control**
+
+- **Role-Based Access**:
+  - Define roles (Admin, Teacher, Student).
+  - Restrict access to modules based on roles.
+
+- **Secure Login**:
+  - Implement secure authentication for all users.
+
+---
+
+## **3. Database Schema**
+
+Here is the simplified database schema for the MVP:
+
+### **3.1 Students**
+```sql
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    id_card_number VARCHAR(20) UNIQUE,
+    phone VARCHAR(20),
+    address TEXT,
+    email VARCHAR(255) UNIQUE,
+    filiere_id INT,
+    class_id INT,
+    status ENUM('Actif', 'Suspendu', 'Diplômé', 'Exclu') DEFAULT 'Actif',
+    documents TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (filiere_id) REFERENCES filieres(id),
+    FOREIGN KEY (class_id) REFERENCES classes(id)
+);
+```
+
+### **3.2 Filieres**
+```sql
+CREATE TABLE filieres (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    abbreviation VARCHAR(10),
+    num_years INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+### **3.3 Classes**
+```sql
+CREATE TABLE classes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    filiere_id INT,
+    abbreviation VARCHAR(10),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (filiere_id) REFERENCES filieres(id)
+);
+```
+
+### **3.4 Attendance**
+```sql
+CREATE TABLE attendance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    date DATE,
+    status ENUM('Present', 'Absent', 'Late') DEFAULT 'Absent',
+    remarks TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students(id)
+);
+```
+
+### **3.5 Internships**
+```sql
+CREATE TABLE internships (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    service_id INT,
+    periode_de_stage_id INT,
+    start_date DATE,
+    end_date DATE,
+    validation_status ENUM('Pending', 'Validated', 'Rejected') DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students(id),
+    FOREIGN KEY (service_id) REFERENCES services(id),
+    FOREIGN KEY (periode_de_stage_id) REFERENCES periode_de_stages(id)
+);
+```
+
+---
+
+## **4. Development Workflow**
+
+### **4.1 Admin Workflow**
+
+1. **Register Students**: Add new students and assign them to filieres and classes.
+2. **Manage Filieres and Classes**: Create and update filieres and classes.
+3. **Generate Timetables**: Create class schedules and assign teachers.
+4. **Track Attendance**: Mark and monitor student attendance.
+
+### **4.2 Teacher Workflow**
+
+1. **Mark Attendance**: Record attendance for seances.
+2. **Validate Internships**: Confirm student attendance and performance during internships.
+
+### **4.3 Student Workflow**
+
+1. **View Profile**: Access personal information and status.
+2. **View Timetable**: Check class and internship schedules.
+
+---
+
+## **5. User Interface (UI)**
+
+### **5.1 Key Pages**
+
+1. **Login Page**: Authenticate users (Admin, Teacher, Student).
+2. **Dashboard**: Display quick links and summaries (e.g., total students, upcoming exams).
+3. **Student Registration Page**: Form to register new students.
+4. **Attendance Tracking Page**: Table to mark and view attendance.
+5. **Timetable Generation Page**: Interface to create and manage class schedules.
+6. **Internship Management Page**: Table to assign and track internships.
+
+---
+
+## **6. Testing**
+
+- Write unit and feature tests for each module.
+- Ensure all functionalities are working as expected.
+
+---
+
