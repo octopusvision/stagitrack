@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
+import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
@@ -119,89 +118,80 @@ export default function TimetablesIndex() {
   ];
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Timetables Management" />
-        
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
-          <div className="mb-6 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">Timetables</h1>
-            <Button asChild>
-              <Link href="/timetables/new">
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Add New Timetable Entry
-              </Link>
-            </Button>
-          </div>
-          
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Filter Timetables</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Class</label>
-                  <Select
-                    value={selectedClass}
-                    onValueChange={setSelectedClass}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="All Classes" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={undefined}>All Classes</SelectItem>
-                      {classes?.map(cls => (
-                        <SelectItem key={cls.id} value={cls.id.toString()}>
-                          {cls.abbreviation} - {cls.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Day</label>
-                  <Select
-                    value={selectedDay}
-                    onValueChange={setSelectedDay}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="All Days" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={undefined}>All Days</SelectItem>
-                      <SelectItem value="0">Sunday</SelectItem>
-                      <SelectItem value="1">Monday</SelectItem>
-                      <SelectItem value="2">Tuesday</SelectItem>
-                      <SelectItem value="3">Wednesday</SelectItem>
-                      <SelectItem value="4">Thursday</SelectItem>
-                      <SelectItem value="5">Friday</SelectItem>
-                      <SelectItem value="6">Saturday</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Class Schedule</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <DataTable 
-                columns={timetableColumns} 
-                data={filteredTimetables || []} 
-                isLoading={isLoadingTimetables}
-                searchPlaceholder="Search timetables..."
-              />
-            </CardContent>
-          </Card>
-        </main>
+    <AppLayout title="Timetables Management">
+      <div className="mb-6 flex justify-end">
+        <Button asChild>
+          <Link href="/timetables/new">
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Add New Timetable Entry
+          </Link>
+        </Button>
       </div>
-    </div>
+      
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Filter Timetables</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Class</label>
+              <Select
+                value={selectedClass}
+                onValueChange={setSelectedClass}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="All Classes" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={undefined}>All Classes</SelectItem>
+                  {classes?.map(cls => (
+                    <SelectItem key={cls.id} value={cls.id.toString()}>
+                      {cls.abbreviation} - {cls.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Day</label>
+              <Select
+                value={selectedDay}
+                onValueChange={setSelectedDay}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="All Days" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={undefined}>All Days</SelectItem>
+                  <SelectItem value="0">Sunday</SelectItem>
+                  <SelectItem value="1">Monday</SelectItem>
+                  <SelectItem value="2">Tuesday</SelectItem>
+                  <SelectItem value="3">Wednesday</SelectItem>
+                  <SelectItem value="4">Thursday</SelectItem>
+                  <SelectItem value="5">Friday</SelectItem>
+                  <SelectItem value="6">Saturday</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>Class Schedule</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DataTable 
+            columns={timetableColumns} 
+            data={filteredTimetables || []} 
+            isLoading={isLoadingTimetables}
+            searchPlaceholder="Search timetables..."
+          />
+        </CardContent>
+      </Card>
+    </AppLayout>
   );
 }

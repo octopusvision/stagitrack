@@ -67,8 +67,7 @@ export default function TeachersIndex() {
 
   return (
     <AppLayout title="Teachers Management">
-      <div className="mb-6 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Teachers</h1>
+      <div className="mb-6 flex justify-end">
         <Button asChild>
           <Link href="/teachers/new">
             <PlusCircle className="mr-2 h-4 w-4" />

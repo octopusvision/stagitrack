@@ -91,8 +91,7 @@ export default function StudentsIndex() {
 
   return (
     <AppLayout title="Students Management">
-          <div className="mb-6 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">Students</h1>
+          <div className="mb-6 flex justify-end">
             <Button asChild>
               <Link href="/students/new">
                 <PlusCircle className="mr-2 h-4 w-4" />

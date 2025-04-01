@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
+import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { Filiere, Class } from "@shared/schema";
@@ -79,79 +78,70 @@ export default function FilieresClassesIndex() {
   ];
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Filieres & Classes" />
-        
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
-          <div className="mb-6 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">Filieres & Classes Management</h1>
-            <div className="flex space-x-2">
-              <Button asChild>
-                <Link href="/filieres-classes/new-filiere">
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Add New Filière
-                </Link>
-              </Button>
-              <Button asChild>
-                <Link href="/filieres-classes/new-class">
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Add New Class
-                </Link>
-              </Button>
-            </div>
-          </div>
-          
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="mb-6">
-              <TabsTrigger value="filieres">Filières</TabsTrigger>
-              <TabsTrigger value="classes">Classes</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="filieres">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Filières</CardTitle>
-                  <CardDescription>
-                    Manage nursing programs and specializations
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <DataTable 
-                    columns={filiereColumns} 
-                    data={filieres || []} 
-                    isLoading={isLoadingFilieres}
-                    searchPlaceholder="Search filières..."
-                    searchKeys={["name", "abbreviation"]}
-                  />
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="classes">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Classes</CardTitle>
-                  <CardDescription>
-                    Manage student classes within each filière
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <DataTable 
-                    columns={classColumns} 
-                    data={classes || []} 
-                    isLoading={isLoadingClasses}
-                    searchPlaceholder="Search classes..."
-                    searchKeys={["name", "abbreviation"]}
-                  />
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </main>
+    <AppLayout title="Filieres & Classes Management">
+      <div className="mb-6 flex justify-end">
+        <div className="flex space-x-2">
+          <Button asChild>
+            <Link href="/filieres-classes/new-filiere">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Add New Filière
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link href="/filieres-classes/new-class">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Add New Class
+            </Link>
+          </Button>
+        </div>
       </div>
-    </div>
+      
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="mb-6">
+          <TabsTrigger value="filieres">Filières</TabsTrigger>
+          <TabsTrigger value="classes">Classes</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="filieres">
+          <Card>
+            <CardHeader>
+              <CardTitle>Filières</CardTitle>
+              <CardDescription>
+                Manage nursing programs and specializations
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <DataTable 
+                columns={filiereColumns} 
+                data={filieres || []} 
+                isLoading={isLoadingFilieres}
+                searchPlaceholder="Search filières..."
+                searchKeys={["name", "abbreviation"]}
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="classes">
+          <Card>
+            <CardHeader>
+              <CardTitle>Classes</CardTitle>
+              <CardDescription>
+                Manage student classes within each filière
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <DataTable 
+                columns={classColumns} 
+                data={classes || []} 
+                isLoading={isLoadingClasses}
+                searchPlaceholder="Search classes..."
+                searchKeys={["name", "abbreviation"]}
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </AppLayout>
   );
 }
