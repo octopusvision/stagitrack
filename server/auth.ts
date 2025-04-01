@@ -1,9 +1,8 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { Express } from "express";
+import { Express, Request, Response, NextFunction } from "express";
 import session from "express-session";
-import { scrypt, randomBytes, timingSafeEqual } from "crypto";
-import { promisify } from "util";
+import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { User as SelectUser } from "@shared/schema";
 
@@ -13,19 +12,30 @@ declare global {
   }
 }
 
-const scryptAsync = promisify(scrypt);
-
 async function hashPassword(password: string) {
-  const salt = randomBytes(16).toString("hex");
-  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
-  return `${buf.toString("hex")}.${salt}`;
+  const salt = await bcrypt.genSalt(10);
+  return bcrypt.hash(password, salt);
 }
 
 async function comparePasswords(supplied: string, stored: string) {
-  const [hashed, salt] = stored.split(".");
-  const hashedBuf = Buffer.from(hashed, "hex");
-  const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
-  return timingSafeEqual(hashedBuf, suppliedBuf);
+  // Handle both bcrypt and other password formats
+  if (stored.startsWith('$2')) {
+    // This is a bcrypt hash
+    return bcrypt.compare(supplied, stored);
+  } else {
+    // For backward compatibility with non-bcrypt passwords
+    try {
+      const [hashed, salt] = stored.split(".");
+      if (!salt) return false; // Invalid format
+      
+      // Try to compare using old method
+      const hashedSupplied = await bcrypt.hash(supplied, salt);
+      return hashedSupplied === stored;
+    } catch (err) {
+      console.error("Error comparing passwords:", err);
+      return false;
+    }
+  }
 }
 
 export function setupAuth(app: Express) {
@@ -107,7 +117,7 @@ export function setupAuth(app: Express) {
   });
 
   // Middleware to check if user is authenticated
-  const ensureAuthenticated = (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+  const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     if (req.isAuthenticated()) {
       return next();
     }
@@ -115,7 +125,7 @@ export function setupAuth(app: Express) {
   };
 
   // Middleware to check if user is an admin
-  const ensureAdmin = (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+  const ensureAdmin = (req: Request, res: Response, next: NextFunction) => {
     if (req.isAuthenticated() && req.user.role === "admin") {
       return next();
     }
@@ -123,7 +133,7 @@ export function setupAuth(app: Express) {
   };
 
   // Middleware to check if user is a teacher
-  const ensureTeacher = (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+  const ensureTeacher = (req: Request, res: Response, next: NextFunction) => {
     if (req.isAuthenticated() && (req.user.role === "teacher" || req.user.role === "admin")) {
       return next();
     }

@@ -954,7 +954,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAttendancesByDate(date: Date): Promise<Attendance[]> {
-    return await db.select().from(attendance).where(eq(attendance.date, date));
+    // Convert date to ISO string format (YYYY-MM-DD) for PostgreSQL date column
+    const dateStr = date.toISOString().split('T')[0];
+    return await db.select().from(attendance).where(eq(attendance.date, dateStr));
   }
 
   async getAttendance(id: number): Promise<Attendance | undefined> {
@@ -991,7 +993,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getInternshipAttendancesByDate(date: Date): Promise<InternshipAttendance[]> {
-    return await db.select().from(internshipAttendance).where(eq(internshipAttendance.date, date));
+    // Convert date to ISO string format (YYYY-MM-DD) for PostgreSQL date column
+    const dateStr = date.toISOString().split('T')[0];
+    return await db.select().from(internshipAttendance).where(eq(internshipAttendance.date, dateStr));
   }
 
   async getInternshipAttendance(id: number): Promise<InternshipAttendance | undefined> {
