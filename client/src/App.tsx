@@ -19,6 +19,7 @@ import InternshipsIndex from "@/pages/internships/index";
 import NewInternship from "@/pages/internships/new";
 import TimetablesIndex from "@/pages/timetables/index";
 import NewTimetable from "@/pages/timetables/new";
+import TeachersIndex from "@/pages/teachers/index";
 import UsersIndex from "@/pages/users/index";
 import NewUser from "@/pages/users/new";
 
@@ -30,6 +31,7 @@ function Router() {
       <ProtectedRoute path="/students" component={StudentsIndex} />
       <ProtectedRoute path="/students/new" component={NewStudent} />
       <ProtectedRoute path="/students/:id" component={StudentDetails} />
+      <ProtectedRoute path="/teachers" component={TeachersIndex} />
       <ProtectedRoute path="/filieres-classes" component={FilieresClassesIndex} />
       <ProtectedRoute path="/filieres-classes/new-filiere" component={NewFiliere} />
       <ProtectedRoute path="/filieres-classes/new-class" component={NewClass} />
