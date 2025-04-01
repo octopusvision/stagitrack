@@ -69,19 +69,19 @@ export function Sidebar({ className }: SidebarProps) {
               const Icon = link.icon;
               
               return (
-                <Link key={link.href} href={link.href}>
-                  <a
-                    className={cn(
-                      "flex items-center px-4 py-3 text-sm font-medium rounded-md",
-                      isActive
-                        ? "bg-primary-900 text-white"
-                        : "text-primary-100 hover:bg-primary-700"
-                    )}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <Icon className="h-5 w-5 mr-3" />
-                    {link.label}
-                  </a>
+                <Link 
+                  key={link.href} 
+                  href={link.href}
+                  className={cn(
+                    "flex items-center px-4 py-3 text-sm font-medium rounded-md",
+                    isActive
+                      ? "bg-primary-900 text-white"
+                      : "text-primary-100 hover:bg-primary-700"
+                  )}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Icon className="h-5 w-5 mr-3" />
+                  {link.label}
                 </Link>
               );
             })}
