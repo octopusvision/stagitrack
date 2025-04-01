@@ -1,93 +1,110 @@
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
-import { StatCard } from "@/components/dashboard/stat-card";
-import { RecentAttendance } from "@/components/dashboard/recent-attendance";
-import { ActiveInternships } from "@/components/dashboard/active-internships";
-import { TodaysClasses } from "@/components/dashboard/todays-classes";
-import { useQuery } from "@tanstack/react-query";
-import { User, Student, Internship, Timetable } from "@shared/schema";
-import { Users, CheckCircle, Clock, AlertTriangle } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuth } from "@/hooks/use-auth";
+import { Button } from "@/components/ui/button";
+import { UsersRound, Activity, Calendar, GraduationCap, ClipboardList } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Dashboard() {
-  // Fetch data for dashboard metrics
-  const { data: students } = useQuery<Student[]>({
-    queryKey: ['/api/students'],
-  });
-  
-  const { data: internships } = useQuery<Internship[]>({
-    queryKey: ['/api/internships'],
-  });
-  
-  const { data: timetables } = useQuery<Timetable[]>({
-    queryKey: ['/api/timetables', { dayOfWeek: new Date().getDay() }],
-  });
-  
-  // Calculate metrics for dashboard cards
-  const studentCount = students?.length || 0;
-  const activeInternships = internships?.filter(i => i.validationStatus === 'Pending')?.length || 0;
-  const classesToday = timetables?.length || 0;
-  const pendingIssues = 3; // Placeholder for pending issues count
+  const { user, logoutMutation } = useAuth();
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      
-      <div className="flex-1 flex flex-col overflow-hidden md:ml-64">
-        <Header title="Dashboard" />
-        
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
-          {/* Stats Section */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <StatCard 
-              title="Total Students" 
-              value={studentCount} 
-              icon={Users} 
-              iconColor="text-primary-600" 
-              iconBgColor="bg-primary-100"
-              linkText="View all"
-              linkHref="/students"
-            />
-            
-            <StatCard 
-              title="Active Internships" 
-              value={activeInternships} 
-              icon={CheckCircle} 
-              iconColor="text-green-600" 
-              iconBgColor="bg-green-100"
-              linkText="Manage"
-              linkHref="/internships"
-            />
-            
-            <StatCard 
-              title="Classes Today" 
-              value={classesToday} 
-              icon={Clock} 
-              iconColor="text-amber-600" 
-              iconBgColor="bg-amber-100"
-              linkText="View schedule"
-              linkHref="/timetables"
-            />
-            
-            <StatCard 
-              title="Pending Issues" 
-              value={pendingIssues} 
-              icon={AlertTriangle} 
-              iconColor="text-red-600" 
-              iconBgColor="bg-red-100"
-              linkText="Resolve now"
-              linkHref="#"
-            />
-          </div>
-          
-          {/* Main content with attendance and internships */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <RecentAttendance />
-            <ActiveInternships />
-          </div>
-          
-          {/* Today's classes */}
-          <TodaysClasses />
-        </main>
+    <div className="container py-8">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <p className="text-muted-foreground">
+            Welcome back, {user?.fullName}!
+          </p>
+        </div>
+        <Button variant="outline" onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Link href="/students">
+          <Card className="cursor-pointer hover:bg-accent/10 transition-colors">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-lg font-medium">
+                Students Management
+              </CardTitle>
+              <UsersRound className="h-5 w-5 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Register, view and manage student profiles and information.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/filieres-classes">
+          <Card className="cursor-pointer hover:bg-accent/10 transition-colors">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-lg font-medium">
+                Filières & Classes
+              </CardTitle>
+              <GraduationCap className="h-5 w-5 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Manage training programs, specializations and class assignments.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/timetables">
+          <Card className="cursor-pointer hover:bg-accent/10 transition-colors">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-lg font-medium">
+                Timetables
+              </CardTitle>
+              <Calendar className="h-5 w-5 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Create and manage class schedules and teaching assignments.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/attendance">
+          <Card className="cursor-pointer hover:bg-accent/10 transition-colors">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-lg font-medium">
+                Attendance Tracking
+              </CardTitle>
+              <ClipboardList className="h-5 w-5 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Track and manage student attendance for classes and activities.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/internships">
+          <Card className="cursor-pointer hover:bg-accent/10 transition-colors">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-lg font-medium">
+                Internships
+              </CardTitle>
+              <Activity className="h-5 w-5 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Manage clinical placements, rotations and internship evaluations.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
     </div>
   );

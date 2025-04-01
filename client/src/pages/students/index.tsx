@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
+import { AppLayout } from "@/components/layout/app-layout";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { useQuery } from "@tanstack/react-query";
@@ -91,13 +90,7 @@ export default function StudentsIndex() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Students Management" />
-        
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
+    <AppLayout title="Students Management">
           <div className="mb-6 flex justify-between items-center">
             <h1 className="text-2xl font-bold text-gray-900">Students</h1>
             <Button asChild>
@@ -116,8 +109,6 @@ export default function StudentsIndex() {
             searchPlaceholder="Search students..."
             searchKeys={["fullName", "idCardNumber", "email"]}
           />
-        </main>
-      </div>
-    </div>
+    </AppLayout>
   );
 }
