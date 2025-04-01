@@ -108,9 +108,9 @@ export default function AuthPage() {
             <TabsContent value="login">
               <Card>
                 <CardHeader>
-                  <CardTitle>Login</CardTitle>
+                  <CardTitle>Connexion</CardTitle>
                   <CardDescription>
-                    Enter your credentials to access your account
+                    Entrez vos identifiants pour accéder à votre compte
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -121,9 +121,9 @@ export default function AuthPage() {
                         name="username"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Username</FormLabel>
+                            <FormLabel>Nom d'utilisateur</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter your username" {...field} />
+                              <Input placeholder="Entrez votre nom d'utilisateur" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -134,9 +134,9 @@ export default function AuthPage() {
                         name="password"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>Mot de passe</FormLabel>
                             <FormControl>
-                              <Input type="password" placeholder="Enter your password" {...field} />
+                              <Input type="password" placeholder="Entrez votre mot de passe" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -150,10 +150,10 @@ export default function AuthPage() {
                         {loginMutation.isPending ? (
                           <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Logging in...
+                            Connexion en cours...
                           </>
                         ) : (
-                          "Login"
+                          "Se connecter"
                         )}
                       </Button>
                     </form>
@@ -161,12 +161,12 @@ export default function AuthPage() {
                 </CardContent>
                 <CardFooter className="flex flex-col space-y-4">
                   <div className="text-sm text-center text-muted-foreground">
-                    Don't have an account?{" "}
+                    Vous n'avez pas de compte ?{" "}
                     <button 
                       className="text-primary underline" 
                       onClick={() => setActiveTab("register")}
                     >
-                      Register
+                      S'inscrire
                     </button>
                   </div>
                 </CardFooter>
@@ -176,9 +176,9 @@ export default function AuthPage() {
             <TabsContent value="register">
               <Card>
                 <CardHeader>
-                  <CardTitle>Create an account</CardTitle>
+                  <CardTitle>Créer un compte</CardTitle>
                   <CardDescription>
-                    Fill out the form below to create your account
+                    Remplissez le formulaire ci-dessous pour créer votre compte
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -189,9 +189,9 @@ export default function AuthPage() {
                         name="fullName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Full Name</FormLabel>
+                            <FormLabel>Nom complet</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter your full name" {...field} />
+                              <Input placeholder="Entrez votre nom complet" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -202,9 +202,9 @@ export default function AuthPage() {
                         name="username"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Username</FormLabel>
+                            <FormLabel>Nom d'utilisateur</FormLabel>
                             <FormControl>
-                              <Input placeholder="Choose a username" {...field} />
+                              <Input placeholder="Choisissez un nom d'utilisateur" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -217,7 +217,7 @@ export default function AuthPage() {
                           <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                              <Input type="email" placeholder="Enter your email" {...field} />
+                              <Input type="email" placeholder="Entrez votre email" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -228,15 +228,15 @@ export default function AuthPage() {
                         name="role"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Role</FormLabel>
+                            <FormLabel>Rôle</FormLabel>
                             <FormControl>
                               <select
                                 className="w-full px-3 py-2 border border-input rounded-md"
                                 {...field}
                               >
-                                <option value="student">Student</option>
-                                <option value="teacher">Teacher</option>
-                                <option value="admin">Admin</option>
+                                <option value="student">Étudiant</option>
+                                <option value="teacher">Enseignant</option>
+                                <option value="admin">Administrateur</option>
                               </select>
                             </FormControl>
                             <FormMessage />
@@ -248,9 +248,9 @@ export default function AuthPage() {
                         name="password"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>Mot de passe</FormLabel>
                             <FormControl>
-                              <Input type="password" placeholder="Create a password" {...field} />
+                              <Input type="password" placeholder="Créez un mot de passe" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -261,9 +261,9 @@ export default function AuthPage() {
                         name="confirmPassword"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Confirm Password</FormLabel>
+                            <FormLabel>Confirmer le mot de passe</FormLabel>
                             <FormControl>
-                              <Input type="password" placeholder="Confirm your password" {...field} />
+                              <Input type="password" placeholder="Confirmez votre mot de passe" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -277,10 +277,10 @@ export default function AuthPage() {
                         {registerMutation.isPending ? (
                           <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Creating account...
+                            Création du compte...
                           </>
                         ) : (
-                          "Register"
+                          "S'inscrire"
                         )}
                       </Button>
                     </form>
@@ -288,12 +288,12 @@ export default function AuthPage() {
                 </CardContent>
                 <CardFooter className="flex flex-col space-y-4">
                   <div className="text-sm text-center text-muted-foreground">
-                    Already have an account?{" "}
+                    Vous avez déjà un compte ?{" "}
                     <button 
                       className="text-primary underline" 
                       onClick={() => setActiveTab("login")}
                     >
-                      Login
+                      Se connecter
                     </button>
                   </div>
                 </CardFooter>
@@ -306,37 +306,37 @@ export default function AuthPage() {
       {/* Right side: Hero section */}
       <div className="hidden lg:block lg:w-1/2 bg-gradient-to-br from-primary-900 to-primary-700 p-12 text-white">
         <div className="h-full flex flex-col justify-center">
-          <h2 className="text-4xl font-bold mb-6">Nursing School Administration Platform</h2>
+          <h2 className="text-4xl font-bold mb-6">Plateforme d'Administration de l'École d'Infirmiers</h2>
           <ul className="space-y-4 text-lg">
             <li className="flex items-start">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-primary-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              <span>Complete student management and tracking</span>
+              <span>Gestion complète des étudiants et suivi</span>
             </li>
             <li className="flex items-start">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-primary-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              <span>Timetable and class scheduling</span>
+              <span>Planification des emplois du temps et des cours</span>
             </li>
             <li className="flex items-start">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-primary-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              <span>Attendance tracking and reporting</span>
+              <span>Suivi et rapports de présence</span>
             </li>
             <li className="flex items-start">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-primary-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              <span>Internship management and oversight</span>
+              <span>Gestion et supervision des stages</span>
             </li>
             <li className="flex items-start">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-primary-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              <span>Comprehensive administration toolkit</span>
+              <span>Outils complets d'administration</span>
             </li>
           </ul>
         </div>
