@@ -13,7 +13,8 @@ import {
   insertInternshipAttendanceSchema,
   insertSubjectSchema,
   insertRoomSchema,
-  insertTimetableSchema
+  insertTimetableSchema,
+  insertTeacherSchema
 } from "@shared/schema";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
@@ -700,6 +701,78 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(204).end();
     } catch (error) {
       res.status(500).json({ message: "Failed to delete timetable" });
+    }
+  });
+
+  // Teacher routes
+  app.get("/api/teachers", ensureAuthenticated, async (req, res) => {
+    try {
+      const teachers = await storage.getTeachers();
+      res.json(teachers);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get teachers" });
+    }
+  });
+
+  app.get("/api/teachers/:id", ensureAuthenticated, async (req, res) => {
+    try {
+      const teacher = await storage.getTeacher(Number(req.params.id));
+      if (!teacher) {
+        return res.status(404).json({ message: "Teacher not found" });
+      }
+      res.json(teacher);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get teacher" });
+    }
+  });
+
+  app.post("/api/teachers", ensureAdmin, validateRequest(insertTeacherSchema), async (req, res) => {
+    try {
+      const teacher = await storage.createTeacher(req.body);
+      res.status(201).json(teacher);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create teacher" });
+    }
+  });
+
+  app.put("/api/teachers/:id", ensureAdmin, async (req, res) => {
+    try {
+      const updatedTeacher = await storage.updateTeacher(Number(req.params.id), req.body);
+      if (!updatedTeacher) {
+        return res.status(404).json({ message: "Teacher not found" });
+      }
+      res.json(updatedTeacher);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update teacher" });
+    }
+  });
+
+  app.delete("/api/teachers/:id", ensureAdmin, async (req, res) => {
+    try {
+      const deleted = await storage.deleteTeacher(Number(req.params.id));
+      if (!deleted) {
+        return res.status(404).json({ message: "Teacher not found" });
+      }
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete teacher" });
+    }
+  });
+
+  // User management routes
+  app.get("/api/users", ensureAdmin, async (req, res) => {
+    try {
+      const users = await storage.getUsers();
+      
+      // Remove passwords from the response
+      const usersWithoutPasswords = users.map(user => {
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
+      });
+      
+      res.json(usersWithoutPasswords);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get users" });
     }
   });
 

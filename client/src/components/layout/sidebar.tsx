@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Home, Users, Layers, Calendar, Briefcase, Clock, Settings, X } from "lucide-react";
+import { Home, Users, Layers, Calendar, Briefcase, Clock, Settings, X, GraduationCap, UserCog } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 
 interface SidebarProps {
@@ -24,13 +24,16 @@ export function Sidebar({ className }: SidebarProps) {
     overlay?.classList.add('hidden');
   };
 
+  // Create links array based on user role
   const links = [
     { href: "/", label: "Dashboard", icon: Home },
     { href: "/students", label: "Students", icon: Users },
+    { href: "/teachers", label: "Teachers", icon: GraduationCap },
     { href: "/filieres-classes", label: "Filieres & Classes", icon: Layers },
     { href: "/attendance", label: "Attendance", icon: Calendar },
     { href: "/internships", label: "Internships", icon: Briefcase },
     { href: "/timetables", label: "Timetables", icon: Clock },
+    ...(user?.role === "admin" ? [{ href: "/users", label: "Users", icon: UserCog }] : []),
     { href: "/settings", label: "Settings", icon: Settings }
   ];
 

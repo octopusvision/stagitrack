@@ -19,6 +19,8 @@ import InternshipsIndex from "@/pages/internships/index";
 import NewInternship from "@/pages/internships/new";
 import TimetablesIndex from "@/pages/timetables/index";
 import NewTimetable from "@/pages/timetables/new";
+import UsersIndex from "@/pages/users/index";
+import NewUser from "@/pages/users/new";
 
 function Router() {
   return (
@@ -37,6 +39,8 @@ function Router() {
       <ProtectedRoute path="/internships/new" component={NewInternship} />
       <ProtectedRoute path="/timetables" component={TimetablesIndex} />
       <ProtectedRoute path="/timetables/new" component={NewTimetable} />
+      <ProtectedRoute path="/users" component={UsersIndex} />
+      <ProtectedRoute path="/users/new" component={NewUser} />
       <Route component={NotFound} />
     </Switch>
   );
