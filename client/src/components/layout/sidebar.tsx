@@ -53,12 +53,12 @@ export function Sidebar({ className }: SidebarProps) {
       {/* Sidebar for mobile and desktop */}
       <div
         className={cn(
-          "fixed inset-y-0 left-0 bg-primary-800 text-white z-50 flex flex-col w-64 transition-transform duration-300 ease-in-out transform",
+          "fixed inset-y-0 left-0 bg-gray-900 text-white z-50 flex flex-col w-64 transition-transform duration-300 ease-in-out transform h-full",
           isMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
           className
         )}
       >
-        <div className="p-4 flex items-center justify-center border-b border-primary-700">
+        <div className="p-4 flex items-center justify-center border-b border-gray-800">
           <h1 className="text-xl font-semibold tracking-wider">Nursing School Admin</h1>
         </div>
 
@@ -73,10 +73,10 @@ export function Sidebar({ className }: SidebarProps) {
                   key={link.href} 
                   href={link.href}
                   className={cn(
-                    "flex items-center px-4 py-3 text-sm font-medium rounded-md",
+                    "flex items-center px-4 py-3 text-sm font-medium rounded-md transition-colors",
                     isActive
-                      ? "bg-primary-900 text-white"
-                      : "text-primary-100 hover:bg-primary-700"
+                      ? "bg-gray-800 text-white"
+                      : "text-gray-300 hover:bg-gray-800 hover:text-white"
                   )}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -88,16 +88,16 @@ export function Sidebar({ className }: SidebarProps) {
           </nav>
         </div>
 
-        <div className="p-4 border-t border-primary-700">
+        <div className="p-4 border-t border-gray-800">
           <div className="flex items-center">
-            <div className="h-8 w-8 rounded-full bg-primary-600 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center">
               {user?.fullName?.charAt(0) || user?.username?.charAt(0) || "U"}
             </div>
             <div className="ml-3">
               <p className="text-sm font-medium text-white">{user?.fullName || user?.username}</p>
               <button
                 onClick={handleLogout}
-                className="text-xs font-medium text-primary-200 hover:text-white"
+                className="text-xs font-medium text-gray-400 hover:text-white"
               >
                 Sign out
               </button>
