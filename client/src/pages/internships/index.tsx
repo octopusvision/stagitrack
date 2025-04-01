@@ -56,7 +56,7 @@ export default function InternshipsIndex() {
   // Helper functions to get names instead of just IDs
   const getStudentName = (studentId: number) => {
     const student = students?.find(s => s.id === studentId);
-    return student?.fullName || `Student #${studentId}`;
+    return student?.fullName || `Étudiant #${studentId}`;
   };
   
   const getServiceName = (serviceId: number) => {
@@ -66,13 +66,13 @@ export default function InternshipsIndex() {
   
   const getPeriodName = (periodId: number) => {
     const period = periods?.find(p => p.id === periodId);
-    return period?.name || `Period #${periodId}`;
+    return period?.name || `Période #${periodId}`;
   };
   
   // Define columns for internships table
   const internshipColumns = [
     {
-      header: "Student",
+      header: "Étudiant",
       accessorKey: "studentId",
       cell: (record: Internship) => getStudentName(record.studentId),
     },
@@ -82,22 +82,22 @@ export default function InternshipsIndex() {
       cell: (record: Internship) => getServiceName(record.serviceId),
     },
     {
-      header: "Period",
+      header: "Période",
       accessorKey: "periodeDeStageId",
       cell: (record: Internship) => getPeriodName(record.periodeDeStageId),
     },
     {
-      header: "Start Date",
+      header: "Date de début",
       accessorKey: "startDate",
       cell: (record: Internship) => new Date(record.startDate).toLocaleDateString(),
     },
     {
-      header: "End Date",
+      header: "Date de fin",
       accessorKey: "endDate",
       cell: (record: Internship) => new Date(record.endDate).toLocaleDateString(),
     },
     {
-      header: "Status",
+      header: "Statut",
       accessorKey: "validationStatus",
       cell: (record: Internship) => {
         const statusColors = {
@@ -105,9 +105,14 @@ export default function InternshipsIndex() {
           Validated: "bg-green-100 text-green-800",
           Rejected: "bg-red-100 text-red-800",
         };
+        const statusLabels = {
+          Pending: "En attente",
+          Validated: "Validé",
+          Rejected: "Rejeté",
+        };
         return (
           <Badge className={statusColors[record.validationStatus]}>
-            {record.validationStatus}
+            {statusLabels[record.validationStatus] || record.validationStatus}
           </Badge>
         );
       },
@@ -117,31 +122,31 @@ export default function InternshipsIndex() {
   return (
     <>
       <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h1 className="text-2xl font-bold text-gray-900">Internships</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Stages</h1>
         
         <div className="flex flex-wrap gap-2">
           <Button variant="outline" asChild>
             <Link href="/internships/services">
-              Manage Services
+              Gérer les Services
             </Link>
           </Button>
           
           <Button variant="outline" asChild>
             <Link href="/internships/periods">
-              Manage Periods
+              Gérer les Périodes
             </Link>
           </Button>
           
           <Button variant="outline" asChild>
             <Link href="/internships/attendance">
-              Track Attendance
+              Suivre les Présences
             </Link>
           </Button>
           
           <Button asChild>
             <Link href="/internships/new">
               <PlusCircle className="mr-2 h-4 w-4" />
-              Add New Internship
+              Ajouter un Stage
             </Link>
           </Button>
         </div>
@@ -149,7 +154,7 @@ export default function InternshipsIndex() {
       
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>Filter Internships</CardTitle>
+          <CardTitle>Filtrer les Stages</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -160,10 +165,10 @@ export default function InternshipsIndex() {
                 onValueChange={setSelectedService}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="All Services" />
+                  <SelectValue placeholder="Tous les Services" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Services</SelectItem>
+                  <SelectItem value="all">Tous les Services</SelectItem>
                   {services?.map(service => (
                     <SelectItem key={service.id} value={service.id.toString()}>
                       {service.name}
@@ -174,16 +179,16 @@ export default function InternshipsIndex() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Period</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Période</label>
               <Select
                 value={selectedPeriod}
                 onValueChange={setSelectedPeriod}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="All Periods" />
+                  <SelectValue placeholder="Toutes les Périodes" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Periods</SelectItem>
+                  <SelectItem value="all">Toutes les Périodes</SelectItem>
                   {periods?.map(period => (
                     <SelectItem key={period.id} value={period.id.toString()}>
                       {period.name}
@@ -198,14 +203,14 @@ export default function InternshipsIndex() {
       
       <Card>
         <CardHeader>
-          <CardTitle>Internship Assignments</CardTitle>
+          <CardTitle>Affectations des Stages</CardTitle>
         </CardHeader>
         <CardContent>
           <DataTable 
             columns={internshipColumns} 
             data={filteredInternships || []} 
             isLoading={isLoadingInternships}
-            searchPlaceholder="Search internships..."
+            searchPlaceholder="Rechercher des stages..."
           />
         </CardContent>
       </Card>

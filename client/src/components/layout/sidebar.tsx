@@ -29,23 +29,23 @@ export function Sidebar({ className }: SidebarProps) {
   
   // Create links array based on user role
   const links = [
-    { href: "/", label: "Dashboard", icon: Home },
-    { href: "/students", label: "Students", icon: Users },
-    { href: "/teachers", label: "Teachers", icon: GraduationCap },
-    { href: "/filieres-classes", label: "Filieres & Classes", icon: Layers },
-    { href: "/attendance", label: "Attendance", icon: Calendar },
-    { href: "/internships", label: "Internships", icon: Briefcase },
+    { href: "/", label: "Tableau de bord", icon: Home },
+    { href: "/students", label: "Étudiants", icon: Users },
+    { href: "/teachers", label: "Enseignants", icon: GraduationCap },
+    { href: "/filieres-classes", label: "Filières & Classes", icon: Layers },
+    { href: "/attendance", label: "Présences", icon: Calendar },
+    { href: "/internships", label: "Stages", icon: Briefcase },
     
     // Internship sub-pages (only shown when in the internships section)
     ...(isInInternshipsSection ? [
       { href: "/internships/services", label: "→ Services", icon: () => <span className="w-5" /> },
-      { href: "/internships/periods", label: "→ Periods", icon: () => <span className="w-5" /> },
-      { href: "/internships/attendance", label: "→ Attendance", icon: () => <span className="w-5" /> },
+      { href: "/internships/periods", label: "→ Périodes", icon: () => <span className="w-5" /> },
+      { href: "/internships/attendance", label: "→ Présences", icon: () => <span className="w-5" /> },
     ] : []),
     
-    { href: "/timetables", label: "Timetables", icon: Clock },
-    ...(user?.role === "admin" ? [{ href: "/users", label: "Users", icon: UserCog }] : []),
-    { href: "/settings", label: "Settings", icon: Settings }
+    { href: "/timetables", label: "Emplois du temps", icon: Clock },
+    ...(user?.role === "admin" ? [{ href: "/users", label: "Utilisateurs", icon: UserCog }] : []),
+    { href: "/settings", label: "Paramètres", icon: Settings }
   ];
 
   return (
@@ -56,7 +56,7 @@ export function Sidebar({ className }: SidebarProps) {
         className
       )}>
         <div className="p-4 flex items-center justify-center border-b border-gray-800">
-          <h1 className="text-xl font-semibold tracking-wider">Nursing School Admin</h1>
+          <h1 className="text-xl font-semibold tracking-wider">Administration École d'Infirmiers</h1>
         </div>
 
         <div className="flex-1 overflow-y-auto py-4">
@@ -95,7 +95,7 @@ export function Sidebar({ className }: SidebarProps) {
                 onClick={handleLogout}
                 className="text-xs font-medium text-gray-400 hover:text-white"
               >
-                Sign out
+                Déconnexion
               </button>
             </div>
           </div>
@@ -107,7 +107,7 @@ export function Sidebar({ className }: SidebarProps) {
         "fixed inset-y-0 left-0 bg-gray-900 text-white z-50 flex flex-col w-64 transition-transform duration-300 ease-in-out transform h-full -translate-x-full md:hidden mobile-sidebar"
       )}>
         <div className="p-4 flex items-center justify-between border-b border-gray-800">
-          <h1 className="text-lg font-semibold truncate">Nursing School Admin</h1>
+          <h1 className="text-lg font-semibold truncate">Administration École d'Infirmiers</h1>
           <button 
             onClick={closeMobileMenu}
             className="text-gray-400 hover:text-white focus:outline-none"
@@ -153,7 +153,7 @@ export function Sidebar({ className }: SidebarProps) {
                 onClick={handleLogout}
                 className="text-xs font-medium text-gray-400 hover:text-white"
               >
-                Sign out
+                Déconnexion
               </button>
             </div>
           </div>
