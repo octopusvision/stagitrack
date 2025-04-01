@@ -93,15 +93,15 @@ export default function NewStudent() {
     },
     onSuccess: () => {
       toast({
-        title: "Student created",
-        description: "The student has been successfully registered",
+        title: "Étudiant créé",
+        description: "L'étudiant a été enregistré avec succès",
       });
       queryClient.invalidateQueries({ queryKey: ['/api/students'] });
       navigate("/students");
     },
     onError: (error: Error) => {
       toast({
-        title: "Failed to create student",
+        title: "Échec de création de l'étudiant",
         description: error.message,
         variant: "destructive",
       });
@@ -118,7 +118,7 @@ export default function NewStudent() {
       <Sidebar />
       
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Add New Student" />
+        <Header title="Ajouter un Nouvel Étudiant" />
         
         <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
           <div className="mb-6">
@@ -128,15 +128,15 @@ export default function NewStudent() {
               className="mb-4"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Students
+              Retour aux Étudiants
             </Button>
             
-            <h1 className="text-2xl font-bold text-gray-900">Register New Student</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Inscrire un Nouvel Étudiant</h1>
           </div>
           
           <Card>
             <CardHeader>
-              <CardTitle>Student Information</CardTitle>
+              <CardTitle>Informations de l'Étudiant</CardTitle>
             </CardHeader>
             <CardContent>
               <Form {...form}>
@@ -148,7 +148,7 @@ export default function NewStudent() {
                       name="fullName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Full Name *</FormLabel>
+                          <FormLabel>Nom complet *</FormLabel>
                           <FormControl>
                             <Input placeholder="John Doe" {...field} />
                           </FormControl>
@@ -162,7 +162,7 @@ export default function NewStudent() {
                       name="idCardNumber"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>ID Card Number</FormLabel>
+                          <FormLabel>Numéro de CIN</FormLabel>
                           <FormControl>
                             <Input placeholder="AB123456" {...field} />
                           </FormControl>
@@ -176,7 +176,7 @@ export default function NewStudent() {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Phone</FormLabel>
+                          <FormLabel>Téléphone</FormLabel>
                           <FormControl>
                             <Input placeholder="+212 612345678" {...field} />
                           </FormControl>
@@ -204,10 +204,10 @@ export default function NewStudent() {
                       name="address"
                       render={({ field }) => (
                         <FormItem className="md:col-span-2">
-                          <FormLabel>Address</FormLabel>
+                          <FormLabel>Adresse</FormLabel>
                           <FormControl>
                             <Textarea 
-                              placeholder="Student's address" 
+                              placeholder="Adresse de l'étudiant" 
                               className="min-h-[80px]" 
                               {...field} 
                             />
@@ -227,7 +227,7 @@ export default function NewStudent() {
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1"
                         onChange={handleFiliereChange}
                       >
-                        <option value="">Select a filière</option>
+                        <option value="">Sélectionner une filière</option>
                         {filieres?.map(filiere => (
                           <option key={filiere.id} value={filiere.id}>
                             {filiere.name} ({filiere.abbreviation})
@@ -241,14 +241,14 @@ export default function NewStudent() {
                       name="classId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Class</FormLabel>
+                          <FormLabel>Classe</FormLabel>
                           <select
                             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                             disabled={!selectedFiliereId}
                             value={field.value?.toString() || ""}
                             onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                           >
-                            <option value="">Select a class</option>
+                            <option value="">Sélectionner une classe</option>
                             {filteredClasses?.map(cls => (
                               <option key={cls.id} value={cls.id}>
                                 {cls.abbreviation} - {cls.name}
@@ -267,7 +267,7 @@ export default function NewStudent() {
                     name="status"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Status</FormLabel>
+                        <FormLabel>Statut</FormLabel>
                         <select
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                           value={field.value}
@@ -294,7 +294,7 @@ export default function NewStudent() {
                             htmlFor="file-upload"
                             className="relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
                           >
-                            <span>Upload files</span>
+                            <span>Télécharger des fichiers</span>
                             <input
                               id="file-upload"
                               name="file-upload"
@@ -303,14 +303,14 @@ export default function NewStudent() {
                               onChange={handleFileChange}
                             />
                           </label>
-                          <p className="pl-1">or drag and drop</p>
+                          <p className="pl-1">ou glisser-déposer</p>
                         </div>
                         <p className="text-xs text-gray-500">
-                          PNG, JPG, PDF up to 10MB
+                          PNG, JPG, PDF jusqu'à 10MB
                         </p>
                         {selectedFile && (
                           <p className="text-sm text-gray-800 bg-gray-100 p-2 rounded mt-2">
-                            Selected: {selectedFile.name}
+                            Sélectionné: {selectedFile.name}
                           </p>
                         )}
                       </div>
@@ -324,7 +324,7 @@ export default function NewStudent() {
                       className="mr-2"
                       onClick={() => navigate("/students")}
                     >
-                      Cancel
+                      Annuler
                     </Button>
                     <Button 
                       type="submit" 
@@ -333,10 +333,10 @@ export default function NewStudent() {
                       {studentMutation.isPending ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Saving...
+                          Enregistrement...
                         </>
                       ) : (
-                        "Save Student"
+                        "Enregistrer l'étudiant"
                       )}
                     </Button>
                   </div>
