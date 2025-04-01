@@ -1,29 +1,16 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
-import { Button } from "@/components/ui/button";
 import { UsersRound, Activity, Calendar, GraduationCap, ClipboardList } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Dashboard() {
-  const { user, logoutMutation } = useAuth();
-
-  const handleLogout = () => {
-    logoutMutation.mutate();
-  };
+  const { user } = useAuth();
 
   return (
-    <div className="container py-8">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back, {user?.fullName}!
-          </p>
-        </div>
-        <Button variant="outline" onClick={handleLogout}>
-          Logout
-        </Button>
-      </div>
+    <div className="container py-4">
+      <p className="text-muted-foreground mb-6">
+        Welcome back, {user?.fullName || user?.username}!
+      </p>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Link href="/students">

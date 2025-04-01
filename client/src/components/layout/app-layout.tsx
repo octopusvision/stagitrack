@@ -9,13 +9,13 @@ interface AppLayoutProps {
 
 export function AppLayout({ children, title }: AppLayoutProps) {
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen bg-gray-50 overflow-hidden">
       <Sidebar />
       
       <div className="flex-1 flex flex-col overflow-hidden md:ml-64">
         <Header title={title} />
         
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 overflow-y-auto px-4 py-6 md:px-6 lg:px-8">
           {children}
         </main>
       </div>
