@@ -24,7 +24,7 @@ export default function MarkAttendance() {
   
   // State for filters and attendance records
   const [selectedClass, setSelectedClass] = useState<string | undefined>(
-    new URLSearchParams(window.location.search).get("classId") || undefined
+    new URLSearchParams(window.location.search).get("classId") || "placeholder"
   );
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [attendanceRecords, setAttendanceRecords] = useState<Record<number, InsertAttendance>>({});
@@ -36,8 +36,8 @@ export default function MarkAttendance() {
   
   // Fetch students filtered by class
   const { data: students, isLoading: isLoadingStudents } = useQuery<Student[]>({
-    queryKey: ['/api/students', { classId: selectedClass ? Number(selectedClass) : undefined }],
-    enabled: !!selectedClass,
+    queryKey: ['/api/students', { classId: selectedClass && selectedClass !== "placeholder" ? Number(selectedClass) : undefined }],
+    enabled: !!(selectedClass && selectedClass !== "placeholder"),
   });
   
   // Initialize attendance records when students or date changes
@@ -199,6 +199,7 @@ export default function MarkAttendance() {
                   <SelectValue placeholder="Select a class" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="placeholder">-- Select class --</SelectItem>
                   {classes?.map(cls => (
                     <SelectItem key={cls.id} value={cls.id.toString()}>
                       {cls.abbreviation} - {cls.name}
@@ -220,7 +221,7 @@ export default function MarkAttendance() {
         </CardContent>
       </Card>
       
-      {selectedClass ? (
+      {selectedClass && selectedClass !== "placeholder" ? (
         <Card>
           <CardHeader>
             <CardTitle>Student Attendance</CardTitle>

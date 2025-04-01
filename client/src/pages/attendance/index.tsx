@@ -46,7 +46,7 @@ export default function AttendanceIndex() {
       dateMatch = attendanceDate.toDateString() === selectedDate.toDateString();
     }
     
-    if (selectedClass) {
+    if (selectedClass && selectedClass !== "all") {
       const student = students?.find(s => s.id === attendance.studentId);
       classMatch = student?.classId?.toString() === selectedClass;
     }
@@ -144,7 +144,7 @@ export default function AttendanceIndex() {
                   <SelectValue placeholder="Select class" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Classes</SelectItem>
+                  <SelectItem value="all">All Classes</SelectItem>
                   {classes?.map(cls => (
                     <SelectItem key={cls.id} value={cls.id.toString()}>
                       {cls.abbreviation} - {cls.name}
