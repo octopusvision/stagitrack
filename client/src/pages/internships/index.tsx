@@ -44,11 +44,11 @@ export default function InternshipsIndex() {
     let serviceMatch = true;
     let periodMatch = true;
     
-    if (selectedService) {
+    if (selectedService && selectedService !== "all") {
       serviceMatch = internship.serviceId.toString() === selectedService;
     }
     
-    if (selectedPeriod) {
+    if (selectedPeriod && selectedPeriod !== "all") {
       periodMatch = internship.periodeDeStageId.toString() === selectedPeriod;
     }
     
@@ -150,7 +150,7 @@ export default function InternshipsIndex() {
                       <SelectValue placeholder="All Services" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={undefined}>All Services</SelectItem>
+                      <SelectItem value="all">All Services</SelectItem>
                       {services?.map(service => (
                         <SelectItem key={service.id} value={service.id.toString()}>
                           {service.name}
@@ -170,7 +170,7 @@ export default function InternshipsIndex() {
                       <SelectValue placeholder="All Periods" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={undefined}>All Periods</SelectItem>
+                      <SelectItem value="all">All Periods</SelectItem>
                       {periods?.map(period => (
                         <SelectItem key={period.id} value={period.id.toString()}>
                           {period.name}

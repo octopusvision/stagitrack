@@ -46,11 +46,11 @@ export default function TimetablesIndex() {
     let classMatch = true;
     let dayMatch = true;
     
-    if (selectedClass) {
+    if (selectedClass && selectedClass !== "all") {
       classMatch = timetable.classId.toString() === selectedClass;
     }
     
-    if (selectedDay) {
+    if (selectedDay && selectedDay !== "all") {
       dayMatch = timetable.dayOfWeek.toString() === selectedDay;
     }
     
@@ -144,7 +144,7 @@ export default function TimetablesIndex() {
                   <SelectValue placeholder="All Classes" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Classes</SelectItem>
+                  <SelectItem value="all">All Classes</SelectItem>
                   {classes?.map(cls => (
                     <SelectItem key={cls.id} value={cls.id.toString()}>
                       {cls.abbreviation} - {cls.name}
@@ -164,7 +164,7 @@ export default function TimetablesIndex() {
                   <SelectValue placeholder="All Days" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Days</SelectItem>
+                  <SelectItem value="all">All Days</SelectItem>
                   <SelectItem value="0">Sunday</SelectItem>
                   <SelectItem value="1">Monday</SelectItem>
                   <SelectItem value="2">Tuesday</SelectItem>
