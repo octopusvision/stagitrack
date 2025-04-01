@@ -118,7 +118,7 @@ export default function TimetablesIndex() {
   ];
 
   return (
-    <AppLayout title="Timetables Management">
+    <>
       <div className="mb-6 flex justify-end">
         <Button asChild>
           <Link href="/timetables/new">
@@ -144,7 +144,7 @@ export default function TimetablesIndex() {
                   <SelectValue placeholder="All Classes" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={undefined}>All Classes</SelectItem>
+                  <SelectItem value="">All Classes</SelectItem>
                   {classes?.map(cls => (
                     <SelectItem key={cls.id} value={cls.id.toString()}>
                       {cls.abbreviation} - {cls.name}
@@ -164,7 +164,7 @@ export default function TimetablesIndex() {
                   <SelectValue placeholder="All Days" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={undefined}>All Days</SelectItem>
+                  <SelectItem value="">All Days</SelectItem>
                   <SelectItem value="0">Sunday</SelectItem>
                   <SelectItem value="1">Monday</SelectItem>
                   <SelectItem value="2">Tuesday</SelectItem>
@@ -192,6 +192,6 @@ export default function TimetablesIndex() {
           />
         </CardContent>
       </Card>
-    </AppLayout>
+    </>
   );
 }

@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { useLocation, useRoute } from "wouter";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -49,7 +47,7 @@ export default function MarkAttendance() {
       students.forEach(student => {
         newRecords[student.id] = {
           studentId: student.id,
-          date: selectedDate,
+          date: selectedDate.toISOString().split('T')[0],
           status: 'Present', // Default to present
           remarks: '',
         };
@@ -171,113 +169,105 @@ export default function MarkAttendance() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Mark Attendance" />
+    <>
+      <div className="mb-6">
+        <Button 
+          variant="outline" 
+          onClick={() => navigate("/attendance")}
+          className="mb-4"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Attendance
+        </Button>
         
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
-          <div className="mb-6">
-            <Button 
-              variant="outline" 
-              onClick={() => navigate("/attendance")}
-              className="mb-4"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Attendance
-            </Button>
-            
-            <h1 className="text-2xl font-bold text-gray-900">Mark Student Attendance</h1>
-          </div>
-          
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Select Class and Date</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Class</label>
-                  <Select
-                    value={selectedClass}
-                    onValueChange={setSelectedClass}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a class" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {classes?.map(cls => (
-                        <SelectItem key={cls.id} value={cls.id.toString()}>
-                          {cls.abbreviation} - {cls.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
-                  <DatePicker
-                    date={selectedDate}
-                    setDate={setSelectedDate}
-                    className="w-full"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          {selectedClass ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>Student Attendance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {isLoadingStudents ? (
-                  <div className="flex justify-center py-6">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
-                  </div>
-                ) : !students || students.length === 0 ? (
-                  <div className="text-center py-4 text-gray-500">
-                    No students found in this class
-                  </div>
-                ) : (
-                  <>
-                    <DataTable 
-                      columns={studentColumns} 
-                      data={students} 
-                      searchPlaceholder="Search students..."
-                      searchKeys={["fullName", "id"]}
-                    />
-                    
-                    <div className="mt-6 flex justify-end">
-                      <Button 
-                        className="ml-auto"
-                        onClick={handleSubmit}
-                        disabled={submitAttendanceMutation.isPending}
-                      >
-                        {submitAttendanceMutation.isPending ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Saving...
-                          </>
-                        ) : (
-                          "Save Attendance"
-                        )}
-                      </Button>
-                    </div>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="text-center p-6 bg-gray-100 rounded-lg">
-              <p className="text-gray-600">Please select a class to mark attendance</p>
-            </div>
-          )}
-        </main>
+        <h1 className="text-2xl font-bold text-gray-900">Mark Student Attendance</h1>
       </div>
-    </div>
+      
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Select Class and Date</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Class</label>
+              <Select
+                value={selectedClass}
+                onValueChange={setSelectedClass}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a class" />
+                </SelectTrigger>
+                <SelectContent>
+                  {classes?.map(cls => (
+                    <SelectItem key={cls.id} value={cls.id.toString()}>
+                      {cls.abbreviation} - {cls.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+              <DatePicker
+                date={selectedDate}
+                setDate={setSelectedDate}
+                className="w-full"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      
+      {selectedClass ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>Student Attendance</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {isLoadingStudents ? (
+              <div className="flex justify-center py-6">
+                <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
+              </div>
+            ) : !students || students.length === 0 ? (
+              <div className="text-center py-4 text-gray-500">
+                No students found in this class
+              </div>
+            ) : (
+              <>
+                <DataTable 
+                  columns={studentColumns} 
+                  data={students} 
+                  searchPlaceholder="Search students..."
+                  searchKeys={["fullName", "id"]}
+                />
+                
+                <div className="mt-6 flex justify-end">
+                  <Button 
+                    className="ml-auto"
+                    onClick={handleSubmit}
+                    disabled={submitAttendanceMutation.isPending}
+                  >
+                    {submitAttendanceMutation.isPending ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      "Save Attendance"
+                    )}
+                  </Button>
+                </div>
+              </>
+            )}
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="text-center p-6 bg-gray-100 rounded-lg">
+          <p className="text-gray-600">Please select a class to mark attendance</p>
+        </div>
+      )}
+    </>
   );
 }

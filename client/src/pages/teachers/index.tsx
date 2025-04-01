@@ -66,7 +66,7 @@ export default function TeachersIndex() {
   };
 
   return (
-    <AppLayout title="Teachers Management">
+    <>
       <div className="mb-6 flex justify-end">
         <Button asChild>
           <Link href="/teachers/new">
@@ -84,6 +84,6 @@ export default function TeachersIndex() {
         searchPlaceholder="Search teachers..."
         searchKeys={["fullName", "subject"]}
       />
-    </AppLayout>
+    </>
   );
 }

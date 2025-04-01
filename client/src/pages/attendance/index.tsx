@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { Attendance, Student, Class } from "@shared/schema";
-import { PlusCircle, Calendar } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -21,7 +19,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 export default function AttendanceIndex() {
   const [, navigate] = useLocation();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const [selectedClass, setSelectedClass] = useState<string | undefined>(undefined);
+  const [selectedClass, setSelectedClass] = useState<string>("");
   
   // Fetch all attendance records
   const { data: attendances, isLoading: isLoadingAttendances } = useQuery<Attendance[]>({
@@ -91,13 +89,13 @@ export default function AttendanceIndex() {
       header: "Status",
       accessorKey: "status",
       cell: (record: Attendance) => {
-        const statusColors = {
+        const statusColors: Record<string, string> = {
           Present: "bg-green-100 text-green-800",
           Absent: "bg-red-100 text-red-800",
           Late: "bg-yellow-100 text-yellow-800",
         };
         return (
-          <Badge className={statusColors[record.status]}>
+          <Badge className={statusColors[record.status || "Present"]}>
             {record.status}
           </Badge>
         );
@@ -110,76 +108,68 @@ export default function AttendanceIndex() {
   ];
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Attendance Management" />
-        
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 lg:p-8">
-          <div className="mb-6 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">Attendance Records</h1>
-            <Button asChild>
-              <Link href="/attendance/mark">
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Mark Attendance
-              </Link>
-            </Button>
-          </div>
-          
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Filter Attendance</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
-                  <DatePicker
-                    date={selectedDate}
-                    setDate={setSelectedDate}
-                    className="w-full"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Class</label>
-                  <Select
-                    value={selectedClass}
-                    onValueChange={setSelectedClass}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select class" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={undefined}>All Classes</SelectItem>
-                      {classes?.map(cls => (
-                        <SelectItem key={cls.id} value={cls.id.toString()}>
-                          {cls.abbreviation} - {cls.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Attendance Records</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <DataTable 
-                columns={attendanceColumns} 
-                data={filteredAttendances || []} 
-                isLoading={isLoadingAttendances}
-                searchPlaceholder="Search attendance records..."
-              />
-            </CardContent>
-          </Card>
-        </main>
+    <>
+      <div className="mb-6 flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-gray-900">Attendance Records</h1>
+        <Button asChild>
+          <Link href="/attendance/mark">
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Mark Attendance
+          </Link>
+        </Button>
       </div>
-    </div>
+      
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Filter Attendance</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+              <DatePicker
+                date={selectedDate}
+                setDate={setSelectedDate}
+                className="w-full"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Class</label>
+              <Select
+                value={selectedClass}
+                onValueChange={setSelectedClass}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select class" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All Classes</SelectItem>
+                  {classes?.map(cls => (
+                    <SelectItem key={cls.id} value={cls.id.toString()}>
+                      {cls.abbreviation} - {cls.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>Attendance Records</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DataTable 
+            columns={attendanceColumns} 
+            data={filteredAttendances || []} 
+            isLoading={isLoadingAttendances}
+            searchPlaceholder="Search attendance records..."
+          />
+        </CardContent>
+      </Card>
+    </>
   );
 }

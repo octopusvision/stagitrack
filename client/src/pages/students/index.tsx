@@ -90,24 +90,24 @@ export default function StudentsIndex() {
   };
 
   return (
-    <AppLayout title="Students Management">
-          <div className="mb-6 flex justify-end">
-            <Button asChild>
-              <Link href="/students/new">
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Add New Student
-              </Link>
-            </Button>
-          </div>
-          
-          <DataTable 
-            columns={columns} 
-            data={students || []} 
-            isLoading={isLoadingStudents}
-            onRowClick={handleRowClick}
-            searchPlaceholder="Search students..."
-            searchKeys={["fullName", "idCardNumber", "email"]}
-          />
-    </AppLayout>
+    <>
+      <div className="mb-6 flex justify-end">
+        <Button asChild>
+          <Link href="/students/new">
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Add New Student
+          </Link>
+        </Button>
+      </div>
+      
+      <DataTable 
+        columns={columns} 
+        data={students || []} 
+        isLoading={isLoadingStudents}
+        onRowClick={handleRowClick}
+        searchPlaceholder="Search students..."
+        searchKeys={["fullName", "idCardNumber", "email"]}
+      />
+    </>
   );
 }

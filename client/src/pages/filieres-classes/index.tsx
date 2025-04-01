@@ -78,7 +78,7 @@ export default function FilieresClassesIndex() {
   ];
 
   return (
-    <AppLayout title="Filieres & Classes Management">
+    <>
       <div className="mb-6 flex justify-end">
         <div className="flex space-x-2">
           <Button asChild>
@@ -142,6 +142,6 @@ export default function FilieresClassesIndex() {
           </Card>
         </TabsContent>
       </Tabs>
-    </AppLayout>
+    </>
   );
 }
