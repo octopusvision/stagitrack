@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, date, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, date, timestamp, pgEnum, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -255,3 +255,20 @@ export type InsertRoom = z.infer<typeof insertRoomSchema>;
 
 export type Timetable = typeof timetables.$inferSelect;
 export type InsertTimetable = z.infer<typeof insertTimetableSchema>;
+
+// Settings table to store application configuration
+export const settings = pgTable("settings", {
+  id: serial("id").primaryKey(),
+  key: text("key").notNull().unique(),
+  value: text("value"),
+  description: text("description"),
+});
+
+export const insertSettingSchema = createInsertSchema(settings).pick({
+  key: true,
+  value: true,
+  description: true,
+});
+
+export type Setting = typeof settings.$inferSelect;
+export type InsertSetting = z.infer<typeof insertSettingSchema>;

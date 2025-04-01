@@ -12,9 +12,10 @@ import {
   Subject, InsertSubject,
   Room, InsertRoom,
   Timetable, InsertTimetable,
+  Setting, InsertSetting,
   users, filieres, classes, students, services, periodeDeSatges,
   internships, attendance, internshipAttendance, teachers, subjects,
-  rooms, timetables
+  rooms, timetables, settings
 } from "@shared/schema";
 import session from "express-session";
 import createMemoryStore from "memorystore";
@@ -129,6 +130,13 @@ export interface IStorage {
   updateTimetable(id: number, timetable: Partial<InsertTimetable>): Promise<Timetable | undefined>;
   deleteTimetable(id: number): Promise<boolean>;
   
+  // Settings management
+  getSettings(): Promise<Setting[]>;
+  getSetting(key: string): Promise<Setting | undefined>;
+  createSetting(setting: InsertSetting): Promise<Setting>;
+  updateSetting(key: string, value: string): Promise<Setting | undefined>;
+  deleteSetting(key: string): Promise<boolean>;
+  
   // Session store
   sessionStore: session.SessionStore;
 }
@@ -147,6 +155,7 @@ export class MemStorage implements IStorage {
   private subjects: Map<number, Subject>;
   private rooms: Map<number, Room>;
   private timetables: Map<number, Timetable>;
+  private settings: Map<string, Setting>;
   
   private userIdCounter: number;
   private filiereIdCounter: number;
@@ -178,6 +187,7 @@ export class MemStorage implements IStorage {
     this.subjects = new Map();
     this.rooms = new Map();
     this.timetables = new Map();
+    this.settings = new Map();
     
     this.userIdCounter = 1;
     this.filiereIdCounter = 1;
