@@ -116,14 +116,35 @@ export default function InternshipsIndex() {
 
   return (
     <>
-      <div className="mb-6 flex justify-between items-center">
+      <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h1 className="text-2xl font-bold text-gray-900">Internships</h1>
-        <Button asChild>
-          <Link href="/internships/new">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Add New Internship
-          </Link>
-        </Button>
+        
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" asChild>
+            <Link href="/internships/services">
+              Manage Services
+            </Link>
+          </Button>
+          
+          <Button variant="outline" asChild>
+            <Link href="/internships/periods">
+              Manage Periods
+            </Link>
+          </Button>
+          
+          <Button variant="outline" asChild>
+            <Link href="/internships/attendance">
+              Track Attendance
+            </Link>
+          </Button>
+          
+          <Button asChild>
+            <Link href="/internships/new">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Add New Internship
+            </Link>
+          </Button>
+        </div>
       </div>
       
       <Card className="mb-8">

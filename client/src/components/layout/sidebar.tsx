@@ -24,6 +24,9 @@ export function Sidebar({ className }: SidebarProps) {
     overlay?.classList.add('hidden');
   };
 
+  // Check if current location is in the internships section
+  const isInInternshipsSection = location.startsWith('/internships');
+  
   // Create links array based on user role
   const links = [
     { href: "/", label: "Dashboard", icon: Home },
@@ -32,6 +35,14 @@ export function Sidebar({ className }: SidebarProps) {
     { href: "/filieres-classes", label: "Filieres & Classes", icon: Layers },
     { href: "/attendance", label: "Attendance", icon: Calendar },
     { href: "/internships", label: "Internships", icon: Briefcase },
+    
+    // Internship sub-pages (only shown when in the internships section)
+    ...(isInInternshipsSection ? [
+      { href: "/internships/services", label: "→ Services", icon: () => <span className="w-5" /> },
+      { href: "/internships/periods", label: "→ Periods", icon: () => <span className="w-5" /> },
+      { href: "/internships/attendance", label: "→ Attendance", icon: () => <span className="w-5" /> },
+    ] : []),
+    
     { href: "/timetables", label: "Timetables", icon: Clock },
     ...(user?.role === "admin" ? [{ href: "/users", label: "Users", icon: UserCog }] : []),
     { href: "/settings", label: "Settings", icon: Settings }
